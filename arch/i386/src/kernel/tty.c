@@ -76,7 +76,7 @@ static void rollup(void) {
   tty.index -= VGA_MAXX;
 }
 
-static int putchar(int ch) {
+static void putchar(int ch) {
   if (tty.index >= VGA_MAXY * VGA_MAXX) {
     rollup();
   }
@@ -95,8 +95,6 @@ static int putchar(int ch) {
       vga_write(tty.index, ch, VGA_COLOR_WHITE, VGA_COLOR_BLACK);
       tty.index++;
   }
-
-  return 0;
 }
 
 int tty_putchar(int ch) {
@@ -107,4 +105,38 @@ int tty_putchar(int ch) {
   return 0;
 }
 
-int tty_printf(const char *format, ...);
+static void puts(const char *s) {
+  while (*s) {
+    tty_putchar(*s++);
+  }
+}
+
+int tty_printf(const char *format, ...) {
+  va_list args;
+  va_start(args, format);
+
+  while (*format) {
+    if (*format != '%') {
+      tty_putchar(*format++);
+      continue;
+    }
+
+    format++;
+
+    switch (*format) {
+      case 'c':
+        tty_putchar(va_arg(args, int));
+        break;
+      case 's':
+        puts(va_arg(args, char*));
+        break;
+      case '%':
+        tty_putchar('%');
+        break;
+    }
+
+    format++;
+  }
+
+  return 0;
+}
