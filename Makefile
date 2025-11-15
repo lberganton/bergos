@@ -16,7 +16,7 @@ AS_FLAGS := -felf32
 
 # C Compiler
 CC := gcc
-CC_FLAGS := -std=gnu99 -m16 -Wall -Wextra -nostdlib -ffreestanding -fno-pic -fno-pie -fno-stack-protector -mno-sse -mno-sse2 -mno-mmx
+CC_FLAGS := -std=gnu99 -m32 -Wall -Wextra -nostdlib -ffreestanding -fno-pic -fno-pie -fno-stack-protector -mno-sse -mno-sse2 -mno-mmx
 CC_INCLUDES := $(addprefix -I,$(shell find  $(ARCH_DIR) $(KERNEL_DIR) -type d -name '*include'))
 
 # Linker
