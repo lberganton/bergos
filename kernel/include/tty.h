@@ -13,7 +13,7 @@ int tty_getx(void);
 int tty_sety(int y);
 int tty_setx(int x);
 
-int tty_getcrlf(void);
+int tty_iscrlf(void);
 int tty_setcrlf(int status);
 
 int tty_putchar(int ch);
