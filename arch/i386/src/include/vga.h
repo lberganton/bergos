@@ -24,5 +24,6 @@ typedef enum {
 } VGAColor;
 
 int vga_write(int index, char character, VGAColor foreground, VGAColor background);
+int vga_read(int index, char *character, VGAColor *foreground, VGAColor *background);
 
 #endif
