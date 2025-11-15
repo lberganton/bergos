@@ -1,5 +1,3 @@
-section .bootloader
-
 %define KERNEL_OFFSET 0x7e00
 
 extern main
