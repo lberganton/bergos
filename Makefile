@@ -8,6 +8,7 @@ BUILD_DIR := build/$(ARCH)
 
 # Output
 OUTPUT := $(BUILD_DIR)/os.img
+OUTPUT_SIZE := 64k
 
 # Assembler
 AS := nasm
@@ -39,6 +40,7 @@ all: $(OUTPUT)
 $(OUTPUT): $(AS_OBJS) $(CC_OBJS)
 	@mkdir -p $(dir $@)
 	$(CC) $(CC_FLAGS) $(LINKER_FLAGS) -o $@ $^
+	@truncate --size=$(OUTPUT_SIZE) $@
 
 $(BUILD_DIR)/%.o: %.asm
 	@mkdir -p $(dir $@)
