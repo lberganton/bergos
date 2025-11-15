@@ -1,6 +1,8 @@
 section .bootloader
 
-%define KERNEL_OFFSET 0x8000
+%define KERNEL_OFFSET 0x7e00
+
+extern kmain
 
 [bits 16]
 _start:
@@ -24,8 +26,16 @@ read_kernel:
 
   jnc load_gdt
 
-  mov si, ERROR_KERNEL
-  jmp error
+  mov ah, 0x13
+  mov al, 0x01
+  mov bp, ERROR_KERNEL
+  mov cx, ERROR_KERNEL_LEN
+  mov bl, 0x0f
+  xor dx, dx
+  int 0x10
+
+  cli
+  hlt
 
 load_gdt:
   cli
@@ -36,11 +46,6 @@ enable_protected_mode:
   or eax, 0x01
   mov cr0, eax
 
-  jmp (GDT.code - GDT.begin):protected_mode
-
-[bits 32]
-protected_mode:
-jmp $
   mov ax, (GDT.data - GDT.begin)
   mov ds, ax
   mov es, ax
@@ -48,22 +53,7 @@ jmp $
   mov gs, ax
   mov ss, ax
 
-  jmp KERNEL_OFFSET
-
-
-
-[bits 16]
-error:
-  lodsb
-
-  mov ah, 0x0e
-  int 0x10
-
-  test al, al
-  jnz error
-
-  cli
-  hlt
+  jmp (GDT.code - GDT.begin):kmain
 
 DAP:
   db 0x10           ; Tamanho do DAP. Deve ser 16 (0x10).
@@ -84,7 +74,8 @@ GDT:
     .data: db 0xff, 0xff, 0x00, 0x00, 0x00, 0b10010010, 0b11001111, 0x00
 GDT.end:
 
-ERROR_KERNEL: db "Error: failed to read kernel.", 0x00
+ERROR_KERNEL: db "Error: failed to read kernel"
+ERROR_KERNEL_LEN EQU $ - ERROR_KERNEL
 
 times 510 - ($ - $$) db 0x00
 dw 0xaa55
