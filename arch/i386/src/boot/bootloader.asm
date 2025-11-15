@@ -2,7 +2,7 @@ section .bootloader
 
 %define KERNEL_OFFSET 0x7e00
 
-extern kmain
+extern main
 
 [bits 16]
 _start:
@@ -53,7 +53,7 @@ enable_protected_mode:
   mov gs, ax
   mov ss, ax
 
-  jmp (GDT.code - GDT.begin):kmain
+  jmp (GDT.code - GDT.begin):main
 
 DAP:
   db 0x10           ; Tamanho do DAP. Deve ser 16 (0x10).
