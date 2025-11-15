@@ -7,7 +7,7 @@ KERNEL_DIR := kernel
 BUILD_DIR := build/$(ARCH)
 
 # Output
-OUTPUT := $(BUILD_DIR)/os.img
+OUTPUT := $(BUILD_DIR)/bergos.img
 OUTPUT_SIZE := 64k
 
 # Assembler
