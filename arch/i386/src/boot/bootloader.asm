@@ -5,7 +5,7 @@ section .bootloader
 extern main
 
 [bits 16]
-_start:
+set_segmentation:
   xor ax, ax
   mov ds, ax
   mov es, ax
