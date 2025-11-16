@@ -15,10 +15,6 @@ set_stack:
   mov bp, 0x7c00
   mov sp, bp
 
-clear_screen:
-  mov ax, 0x0003
-  int 0x10
-
 read_kernel:
   mov ah, 0x42
   mov si, DAP

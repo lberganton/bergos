@@ -10,7 +10,7 @@ static struct {
 } tty;
 
 int tty_initialize(void) {
-  tty.index = 0;
+  tty_clear();
   tty.crlf = 0;
   return 0;
 }
