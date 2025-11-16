@@ -7,12 +7,12 @@
 
 static struct {
   size_t index;
-  _Bool crlf;
+  bool crlf;
 } tty;
 
 int tty_initialize(void) {
   tty_clear();
-  tty.crlf = 0;
+  tty.crlf = false;
   return 0;
 }
 

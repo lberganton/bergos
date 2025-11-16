@@ -1,5 +1,5 @@
-#ifndef X86_H
-#define X86_H
+#ifndef I386_H
+#define I386_H
 
 #include <stdint.h>
 
