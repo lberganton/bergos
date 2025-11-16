@@ -113,7 +113,7 @@ static void puts(const char *s) {
 }
 
 static void putint(uint32_t num, bool is_negative, int base) {
-  const static char DIGITS[] = "0123456789abcdef";
+  static const char DIGITS[] = "0123456789abcdef";
 
   if (base > 16 || base < 1) {
     return;
