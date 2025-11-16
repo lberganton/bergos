@@ -33,6 +33,7 @@ AS_SRCS := $(shell find $(ARCH_DIR) $(KERNEL_DIR) -type f -name '*.asm')
 
 CC_OBJS := $(patsubst %.c,%.o,$(addprefix $(BUILD_DIR)/,$(CC_SRCS)))
 AS_OBJS := $(patsubst %.asm,%.o,$(addprefix $(BUILD_DIR)/,$(AS_SRCS)))
+# AS_OBJS := $(BUILD_DIR)/arch/i386/src/boot/bootloader.o $(BUILD_DIR)/arch/i386/src/gdt.o
 
 # Targets
 all: $(OUTPUT)
