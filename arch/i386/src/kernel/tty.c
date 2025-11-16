@@ -3,6 +3,7 @@
 #include <stddef.h>
 #include <stdarg.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 static struct {
   size_t index;
@@ -111,6 +112,30 @@ static void puts(const char *s) {
   }
 }
 
+static void putint(uint32_t num, bool is_negative, int base) {
+  const static char DIGITS[] = "0123456789abcdef";
+
+  if (base > 16 || base < 1) {
+    return;
+  }
+
+  char stack[sizeof(num) * 8];
+  int stack_top = 0;
+
+  do {
+    stack[stack_top++] = DIGITS[num % base];
+    num /= base;
+  } while (num > 0);
+
+  if (is_negative) {
+    stack[stack_top++] = '-';
+  }
+
+  while (stack_top > 0) {
+    putchar(stack[--stack_top]);
+  }
+}
+
 int tty_printf(const char *format, ...) {
   va_list args;
   va_start(args, format);
@@ -130,6 +155,20 @@ int tty_printf(const char *format, ...) {
       case 's':
         puts(va_arg(args, char*));
         break;
+      case 'u': {
+        int num = va_arg(args, unsigned int);
+        putint((uint32_t) num, false, 10);
+      } break;
+      case 'd': {
+        int num = va_arg(args, int);
+        bool is_negative = num < 0;
+        num = is_negative ? -num : num;
+        putint((uint32_t) num, is_negative, 10);
+      } break;
+      case 'x': {
+        int num = va_arg(args, unsigned int);
+        putint((uint32_t) num, false, 16);
+      } break;
       case '%':
         tty_putchar('%');
         break;
