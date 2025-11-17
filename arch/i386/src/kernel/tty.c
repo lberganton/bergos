@@ -65,7 +65,7 @@ int tty_setcrlf(int status) {
   return 0;
 }
 
-static void rollup(void) {
+static void scroll(void) {
   for (size_t i = VGA_MAXX; i < VGA_MAXY * VGA_MAXX; i++) {
     char character;
     VGAColor foreground;
@@ -84,7 +84,7 @@ static void rollup(void) {
 
 static void putchar(int ch) {
   if (tty.index >= VGA_MAXY * VGA_MAXX) {
-    rollup();
+    scroll();
   }
 
   switch (ch) {
@@ -94,7 +94,7 @@ static void putchar(int ch) {
     case '\n':
       tty.index += VGA_MAXX;
       if (tty.index >= VGA_MAXY * VGA_MAXX) {
-        rollup();
+        scroll();
       }
       break;
     default:
@@ -160,15 +160,15 @@ int tty_printf(const char *format, ...) {
       case 's':
         puts(va_arg(args, char*));
         break;
-      case 'u': {
-        int num = va_arg(args, unsigned int);
-        putint((uint32_t) num, false, 10);
-      } break;
       case 'd': {
         int num = va_arg(args, int);
         bool is_negative = num < 0;
         num = is_negative ? -num : num;
         putint((uint32_t) num, is_negative, 10);
+      } break;
+      case 'u': {
+        int num = va_arg(args, unsigned int);
+        putint((uint32_t) num, false, 10);
       } break;
       case 'x': {
         int num = va_arg(args, unsigned int);
