@@ -18,8 +18,8 @@ int vga_read(int index, char *character, VGAColor *foreground, VGAColor *backgro
   }
 
   *character = (char) *(VGA_MEMORY + index);
-  *foreground = (VGAColor) *(VGA_MEMORY + index) >> 8 | 0xf;
-  *background = (VGAColor) *(VGA_MEMORY + index) >> 12 | 0xf;
+  *foreground = (VGAColor) *(VGA_MEMORY + index) >> 8 & 0xf;
+  *background = (VGAColor) *(VGA_MEMORY + index) >> 12 & 0xf;
 
   return 0;
 }

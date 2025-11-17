@@ -71,9 +71,14 @@ static void rollup(void) {
     VGAColor foreground;
     VGAColor background;
 
-    vga_read(i - VGA_MAXX, &character, &foreground, &background);
+    vga_read(i, &character, &foreground, &background);
     vga_write(i - VGA_MAXX, character, foreground, background);
   }
+
+  for (size_t i = VGA_MAXX * (VGA_MAXY - 1); i < VGA_MAXX * VGA_MAXY; i++) {
+    vga_write(i, ' ', VGA_COLOR_BLACK, VGA_COLOR_BLACK);
+  }
+
   tty.index -= VGA_MAXX;
 }
 
