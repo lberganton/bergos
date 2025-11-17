@@ -12,15 +12,15 @@ typedef enum {
   VGA_COLOR_RED           = 0b0100,
   VGA_COLOR_MAGENTA       = 0b0101,
   VGA_COLOR_BROWN         = 0b0110,
-  VGA_COLOR_LIGHT_GRAY    = 0b0111,
-  VGA_COLOR_DARK_GRAY     = 0b1000,
+  VGA_COLOR_WHITE         = 0b0111,
+  VGA_COLOR_GRAY          = 0b1000,
   VGA_COLOR_LIGHT_BLUE    = 0b1001,
   VGA_COLOR_LIGHT_GREEN   = 0b1010,
   VGA_COLOR_LIGHT_CYAN    = 0b1011,
   VGA_COLOR_LIGHT_RED     = 0b1100,
   VGA_COLOR_LIGHT_MAGENTA = 0b1101,
   VGA_COLOR_YELLOW        = 0b1110,
-  VGA_COLOR_WHITE         = 0b1111,
+  VGA_COLOR_BRIGHT_WHITE  = 0b1111,
 } VGAColor;
 
 int vga_write(int index, char character, VGAColor foreground, VGAColor background);
