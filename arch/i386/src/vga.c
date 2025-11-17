@@ -9,7 +9,7 @@ int vga_write(int index, char character, VGAColor foreground, VGAColor backgroun
     return 1;
   }
 
-  *(VGA_MEMORY + index) = (uint16_t) character | foreground << 8 | (background << 12);
+  VGA_MEMORY[index] = (uint16_t) character | foreground << 8 | (background << 12);
   return 0;
 }
 
@@ -19,13 +19,13 @@ int vga_read(int index, char *character, VGAColor *foreground, VGAColor *backgro
   }
 
   if (character != NULL) {
-    *character = (char) *(VGA_MEMORY + index);
+    *character = (char) VGA_MEMORY[index];
   }
   if (foreground != NULL) {
-    *foreground = (VGAColor) *(VGA_MEMORY + index) >> 8 & 0xf;
+    *foreground = (VGAColor) VGA_MEMORY[index] >> 8 & 0xf;
   }
   if (background != NULL) {
-    *background = (VGAColor) *(VGA_MEMORY + index) >> 12 & 0xf;
+    *background = (VGAColor) VGA_MEMORY[index] >> 12 & 0xf;
   }
 
   return 0;
