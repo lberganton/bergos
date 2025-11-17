@@ -81,7 +81,7 @@ static void scroll(void) {
 }
 
 static void putchar(int ch) {
-  if (index >= VGA_MAXY * VGA_MAXX) {
+  while (index >= VGA_MAXY * VGA_MAXX) {
     scroll();
   }
 
@@ -91,9 +91,6 @@ static void putchar(int ch) {
       break;
     case '\n':
       index += VGA_MAXX;
-      if (index >= VGA_MAXY * VGA_MAXX) {
-        scroll();
-      }
       break;
     default:
       vga_write(index, ch, VGA_COLOR_WHITE, VGA_COLOR_BLACK);
