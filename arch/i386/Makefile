@@ -11,7 +11,7 @@ AS_FLAGS := -felf32
 # C Compiler
 CC := gcc
 CC_FLAGS := -std=gnu99 -m32 -Wall -Wextra -nostdlib -ffreestanding -fno-pic -fno-pie -fno-stack-protector -mno-sse -mno-sse2 -mno-mmx
-CC_INCLUDES := $(addprefix -I,$(shell find  $(SRC_DIR) $(KERNEL_DIR) -type d -name '*include'))
+CC_INCLUDES := $(addprefix -I,$(dir $(shell find $(SRC_DIR) $(KERNEL_DIR) -type f -name '*.h')))
 
 # Linker
 LINKER_SCRIPT := linker.ld
@@ -23,7 +23,7 @@ QEMU_FLAGS := -enable-kvm -no-reboot -monitor stdio
 
 # Sources
 CC_SRCS := $(shell find $(SRC_DIR) $(KERNEL_DIR) -type f -name '*.c')
-AS_SRCS := $(shell find $(SRC_DIR) $(KERNEL_DIR) -type f -name '*.asm')
+AS_SRCS := $(shell find $(SRC_DIR) -type f -name '*.asm')
 
 CC_OBJS := $(patsubst %.c,%.o,$(addprefix $(BUILD_DIR)/,$(CC_SRCS)))
 AS_OBJS := $(patsubst %.asm,%.o,$(addprefix $(BUILD_DIR)/,$(AS_SRCS)))
