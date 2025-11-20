@@ -44,6 +44,8 @@ extern idt_handlers
     iret
 %endmacro
 
+section .text
+
 PUSH_NO_ERROR_CODE 0
 PUSH_NO_ERROR_CODE 1
 PUSH_NO_ERROR_CODE 2
