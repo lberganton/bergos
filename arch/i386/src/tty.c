@@ -16,7 +16,7 @@ int tty_initialize(void) {
 
 int tty_clear(void) {
   for (size_t i = 0; i < VGA_MAXY * VGA_MAXX; i++) {
-    vga_write(i, ' ', VGA_COLOR_BLACK, VGA_COLOR_BLACK);
+    vga_write(i, ' ', VGA_COLOR_WHITE, VGA_COLOR_BLACK);
   }
   index = 0;
   return 0;

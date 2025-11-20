@@ -3,6 +3,17 @@
 
 #include <stdint.h>
 
+typedef struct {
+  uint16_t eax;
+  uint16_t ecx;
+  uint16_t edx;
+  uint16_t ebx;
+  uint16_t esp;
+  uint16_t ebp;
+  uint16_t esi;
+  uint16_t edi;
+} I386Registers;
+
 static inline void i386_outb(uint16_t port, uint8_t value) {
   asm volatile ("movw %[port],  %%dx  \n"
                 "movb %[value], %%al  \n"
