@@ -1,11 +1,10 @@
 #include "tty.h"
 #include "vga.h"
-#include <stddef.h>
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdbool.h>
 
-static size_t index;
+static int cursor;
 static bool crlf;
 
 int tty_initialize(void) {
@@ -15,10 +14,10 @@ int tty_initialize(void) {
 }
 
 int tty_clear(void) {
-  for (size_t i = 0; i < VGA_MAXY * VGA_MAXX; i++) {
-    vga_write(i, ' ', VGA_COLOR_WHITE, VGA_COLOR_BLACK);
+  for (int i = 0; i < VGA_MAXY * VGA_MAXX; i++) {
+    vga_write(i, ' ', VGA_COLOR_BLACK, VGA_COLOR_BLACK);
   }
-  index = 0;
+  cursor = 0;
   return 0;
 }
 
@@ -31,18 +30,18 @@ int tty_maxx(void) {
 }
 
 int tty_gety(void) {
-  return index / VGA_MAXX;
+  return cursor / VGA_MAXX;
 }
 
 int tty_getx(void) {
-  return index % VGA_MAXX;
+  return cursor % VGA_MAXX;
 }
 
 int tty_sety(int y) {
   if (y < 0 || y >= VGA_MAXY) {
     return 1;
   }
-  index = y * VGA_MAXY + tty_getx();
+  cursor = y * VGA_MAXY + tty_getx();
   return 0;
 }
 
@@ -50,7 +49,7 @@ int tty_setx(int x) {
   if (x < 0 || x >= VGA_MAXX) {
     return 1;
   }
-  index = index - tty_getx() + x;
+  cursor = cursor - tty_getx() + x;
   return 0;
 }
 
@@ -64,7 +63,7 @@ int tty_setcrlf(int status) {
 }
 
 static void scroll(void) {
-  for (size_t i = VGA_MAXX; i < VGA_MAXY * VGA_MAXX; i++) {
+  for (int i = VGA_MAXX; i < VGA_MAXY * VGA_MAXX; i++) {
     char character;
     VGAColor foreground;
     VGAColor background;
@@ -73,36 +72,34 @@ static void scroll(void) {
     vga_write(i - VGA_MAXX, character, foreground, background);
   }
 
-  for (size_t i = VGA_MAXX * (VGA_MAXY - 1); i < VGA_MAXX * VGA_MAXY; i++) {
+  for (int i = VGA_MAXX * (VGA_MAXY - 1); i < VGA_MAXX * VGA_MAXY; i++) {
     vga_write(i, ' ', VGA_COLOR_BLACK, VGA_COLOR_BLACK);
   }
 
-  index -= VGA_MAXX;
-}
-
-static void putchar(int ch) {
-  while (index >= VGA_MAXY * VGA_MAXX) {
-    scroll();
-  }
-
-  switch (ch) {
-    case '\r':
-      index -= tty_getx();
-      break;
-    case '\n':
-      index += VGA_MAXX;
-      break;
-    default:
-      vga_write(index, ch, VGA_COLOR_WHITE, VGA_COLOR_BLACK);
-      index++;
-  }
+  cursor -= VGA_MAXX;
 }
 
 int tty_putchar(int ch) {
   if (!crlf && ch == '\n') {
-    putchar('\r');
+    tty_putchar('\r');
   }
-  putchar(ch);
+
+  switch (ch) {
+    case '\r':
+      cursor -= tty_getx();
+      break;
+    case '\n':
+      cursor += VGA_MAXX;
+      break;
+    default:
+      vga_write(cursor, ch, VGA_COLOR_WHITE, VGA_COLOR_BLACK);
+      cursor++;
+  }
+
+  if (cursor >= VGA_MAXY * VGA_MAXX) {
+    scroll();
+  }
+
   return 0;
 }
 
@@ -132,7 +129,7 @@ static void putint(uint32_t num, bool is_negative, int base) {
   }
 
   while (stack_top > 0) {
-    putchar(stack[--stack_top]);
+    tty_putchar(stack[--stack_top]);
   }
 }
 
