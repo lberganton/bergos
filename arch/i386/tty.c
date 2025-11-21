@@ -49,7 +49,7 @@ int tty_setx(int x) {
   if (x < 0 || x >= VGA_MAXX) {
     return 1;
   }
-  cursor = cursor - tty_getx() + x;
+  cursor += x - tty_getx();
   return 0;
 }
 
