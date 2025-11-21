@@ -114,10 +114,6 @@ static void puts(const char *s) {
 static void putint(uint32_t num, bool is_negative, int base) {
   static const char DIGITS[] = "0123456789abcdef";
 
-  if (base > 16 || base < 2) {
-    return;
-  }
-
   char stack[sizeof(num) * 8 + 1];
   int stack_top = 0;
 
