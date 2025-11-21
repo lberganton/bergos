@@ -63,7 +63,9 @@ int tty_setcrlf(int status) {
 }
 
 static void scroll(void) {
-  for (int i = VGA_MAXX; i < VGA_MAXY * VGA_MAXX; i++) {
+  int i;
+
+  for (i = VGA_MAXX; i < VGA_MAXY * VGA_MAXX; i++) {
     char character;
     VGAColor foreground;
     VGAColor background;
@@ -72,7 +74,7 @@ static void scroll(void) {
     vga_write(i - VGA_MAXX, character, foreground, background);
   }
 
-  for (int i = VGA_MAXX * (VGA_MAXY - 1); i < VGA_MAXX * VGA_MAXY; i++) {
+  for (i -= VGA_MAXX; i < VGA_MAXX * VGA_MAXY; i++) {
     vga_write(i, ' ', VGA_COLOR_BLACK, VGA_COLOR_BLACK);
   }
 
