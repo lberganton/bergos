@@ -118,7 +118,7 @@ static void putint(uint32_t num, bool is_negative, int base) {
     return;
   }
 
-  char stack[sizeof(num) * 8];
+  char stack[sizeof(num) * 8 + 1];
   int stack_top = 0;
 
   do {
