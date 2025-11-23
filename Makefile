@@ -25,7 +25,7 @@ LINKER_FLAGS := -T $(LINKER_SCRIPT)
 
 # QEMU
 QEMU := qemu-system-i386
-QEMU_FLAGS := -enable-kvm -no-reboot -monitor stdio
+QEMU_FLAGS := -no-reboot -monitor stdio
 
 # Sources
 CC_SRCS := $(shell find $(ARCH_DIR) $(KERNEL_DIR) -type f -name '*.c')
