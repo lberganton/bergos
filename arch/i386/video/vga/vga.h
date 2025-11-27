@@ -23,7 +23,23 @@ typedef enum {
   VGA_COLOR_BRIGHT_WHITE  = 0b1111,
 } VGAColor;
 
+typedef enum {
+  VGA_REGISTER_CRT_ADDR = 0x3d4,
+  VGA_REGISTER_CRT_DATA = VGA_REGISTER_CRT_ADDR + 1,
+} VGARegister;
+
+typedef enum {
+  VGA_REGISTER_CRT_INDEX_CURSOR_START = 0x0a,
+  VGA_REGISTER_CRT_INDEX_CURSOR_END   = 0x0b,
+  VGA_REGISTER_CRT_INDEX_CURSOR_HIGH  = 0x0e,
+  VGA_REGISTER_CRT_INDEX_CURSOR_LOW   = 0x0f,
+} VGARegisterCRTIndex;
+
 int vga_write(int index, char character, VGAColor foreground, VGAColor background);
 int vga_read(int index, char *character, VGAColor *foreground, VGAColor *background);
+
+int vga_cursor_enable(int cursor_start, int cursor_end);
+int vga_cursor_disable(void);
+int vga_cursor_set_position(int index);
 
 #endif
