@@ -1,13 +1,11 @@
 #include "kernel.h"
 #include "gdt.h"
 #include "i386.h"
-#include "idt.h"
 #include "tty.h"
 #include <stddef.h>
 
 void kernel_initialize(void) {
   gdt_initialize();
-  idt_initialize();
 }
 
 void kernel_panic(const char *msg) {
