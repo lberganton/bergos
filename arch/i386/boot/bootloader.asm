@@ -2,7 +2,7 @@
 
 section .bootloader
 
-extern main
+extern _start
 
 [bits 16]
 set_segmentation:
@@ -54,7 +54,7 @@ enable_protected_mode:
   mov gs, ax
   mov ss, ax
 
-  jmp (GDT.code - GDT.begin):main
+  jmp (GDT.code - GDT.begin):_start
 
 DAP:
   db 0x10           ; Tamanho do DAP. Deve ser 16 (0x10).
