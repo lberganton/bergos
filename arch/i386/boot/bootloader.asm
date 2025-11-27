@@ -1,3 +1,4 @@
+%define KERNEL_SIZE   (64 * 1024 - 512)
 %define KERNEL_OFFSET 0x7e00
 
 section .bootloader
@@ -57,13 +58,13 @@ enable_protected_mode:
   jmp (GDT.code - GDT.begin):_start
 
 DAP:
-  db 0x10           ; Tamanho do DAP. Deve ser 16 (0x10).
-  db 0x00           ; Reservado.
-  dw 0x0010         ; Deve ler 16 (0x10) blocos.
-  dw KERNEL_OFFSET  ; Deve ler para o offset definido por ENTRY_OFFSET.
-  dw 0x0000         ; Deve ler para o segmento 0.
-  dd 0x0001         ; Deve ler a partir do bloco 1.
-  dd 0x0000         ; Se junta com o campo anterior.
+  db 0x10
+  db 0x00
+  dw KERNEL_SIZE / 512
+  dw KERNEL_OFFSET
+  dw 0x0000
+  dd 0x0001
+  dd 0x0000
 DAP.end:
 
 GDT:
