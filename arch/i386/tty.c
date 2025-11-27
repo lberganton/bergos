@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-static int cursor;
+static int index;
 static bool crlf;
 
 int tty_initialize(void) {
@@ -17,7 +17,7 @@ int tty_clear(void) {
   for (int i = 0; i < VGA_MAXY * VGA_MAXX; i++) {
     vga_write(i, ' ', VGA_COLOR_BLACK, VGA_COLOR_BLACK);
   }
-  cursor = 0;
+  index = 0;
   return 0;
 }
 
@@ -30,18 +30,18 @@ int tty_maxx(void) {
 }
 
 int tty_gety(void) {
-  return cursor / VGA_MAXX;
+  return index / VGA_MAXX;
 }
 
 int tty_getx(void) {
-  return cursor % VGA_MAXX;
+  return index % VGA_MAXX;
 }
 
 int tty_sety(int y) {
   if (y < 0 || y >= VGA_MAXY) {
     return 1;
   }
-  cursor = y * VGA_MAXY + tty_getx();
+  index = y * VGA_MAXY + tty_getx();
   return 0;
 }
 
@@ -49,7 +49,7 @@ int tty_setx(int x) {
   if (x < 0 || x >= VGA_MAXX) {
     return 1;
   }
-  cursor += x - tty_getx();
+  index += x - tty_getx();
   return 0;
 }
 
@@ -78,7 +78,7 @@ static void scroll(void) {
     vga_write(i, ' ', VGA_COLOR_BLACK, VGA_COLOR_BLACK);
   }
 
-  cursor -= VGA_MAXX;
+  index -= VGA_MAXX;
 }
 
 int tty_putchar(int ch) {
@@ -88,17 +88,17 @@ int tty_putchar(int ch) {
 
   switch (ch) {
     case '\r':
-      cursor -= tty_getx();
+      index -= tty_getx();
       break;
     case '\n':
-      cursor += VGA_MAXX;
+      index += VGA_MAXX;
       break;
     default:
-      vga_write(cursor, ch, VGA_COLOR_WHITE, VGA_COLOR_BLACK);
-      cursor++;
+      vga_write(index, ch, VGA_COLOR_WHITE, VGA_COLOR_BLACK);
+      index++;
   }
 
-  if (cursor >= VGA_MAXY * VGA_MAXX) {
+  if (index >= VGA_MAXY * VGA_MAXX) {
     scroll();
   }
 
