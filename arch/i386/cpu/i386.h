@@ -48,4 +48,8 @@ static inline void i386_hlt(void) {
   asm volatile ("hlt");
 }
 
+static inline void i386_io_wait(void) {
+  i386_outb(0x80, 0x00);
+}
+
 #endif
