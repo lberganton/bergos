@@ -16,6 +16,9 @@ int tty_setx(int x);
 int tty_iscrlf(void);
 int tty_setcrlf(int status);
 
+int tty_iscursor(void);
+int tty_setcursor(int status);
+
 int tty_putchar(int ch);
 int tty_printf(const char *format, ...);
 

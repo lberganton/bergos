@@ -4,20 +4,29 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#define FOREGROUND_COLOR VGA_COLOR_WHITE
+#define BACKGROUND_COLOR VGA_COLOR_BLACK
+
+#define CURSOR_SCANLINE_START 15
+#define CURSOR_SCANLINE_END   15
+
 static int index;
 static bool crlf;
+static bool cursor;
 
 int tty_initialize(void) {
   tty_clear();
-  crlf = false;
+  tty_setcrlf(false);
+  tty_setcursor(true);
   return 0;
 }
 
 int tty_clear(void) {
   for (int i = 0; i < VGA_MAXY * VGA_MAXX; i++) {
-    vga_write(i, ' ', VGA_COLOR_BLACK, VGA_COLOR_BLACK);
+    vga_write(i, ' ', FOREGROUND_COLOR, BACKGROUND_COLOR);
   }
   index = 0;
+  vga_cursor_set_position(index);
   return 0;
 }
 
@@ -42,6 +51,7 @@ int tty_sety(int y) {
     return 1;
   }
   index = y * VGA_MAXY + tty_getx();
+  vga_cursor_set_position(index);
   return 0;
 }
 
@@ -50,6 +60,7 @@ int tty_setx(int x) {
     return 1;
   }
   index += x - tty_getx();
+  vga_cursor_set_position(index);
   return 0;
 }
 
@@ -59,6 +70,21 @@ int tty_iscrlf(void) {
 
 int tty_setcrlf(int status) {
   crlf = status;
+  return 0;
+}
+
+int tty_iscursor(void) {
+  return cursor;
+}
+
+int tty_setcursor(int status) {
+  cursor = status;
+  if (cursor) {
+    vga_cursor_enable(CURSOR_SCANLINE_START, CURSOR_SCANLINE_END);
+  }
+  else {
+    vga_cursor_disable();
+  }
   return 0;
 }
 
@@ -75,10 +101,11 @@ static void scroll(void) {
   }
 
   for (i -= VGA_MAXX; i < VGA_MAXX * VGA_MAXY; i++) {
-    vga_write(i, ' ', VGA_COLOR_BLACK, VGA_COLOR_BLACK);
+    vga_write(i, ' ', FOREGROUND_COLOR, BACKGROUND_COLOR);
   }
 
   index -= VGA_MAXX;
+  vga_cursor_set_position(index);
 }
 
 int tty_putchar(int ch) {
@@ -94,13 +121,15 @@ int tty_putchar(int ch) {
       index += VGA_MAXX;
       break;
     default:
-      vga_write(index, ch, VGA_COLOR_WHITE, VGA_COLOR_BLACK);
+      vga_write(index, ch, FOREGROUND_COLOR, BACKGROUND_COLOR);
       index++;
   }
 
   if (index >= VGA_MAXY * VGA_MAXX) {
     scroll();
   }
+
+  vga_cursor_set_position(index);
 
   return 0;
 }
