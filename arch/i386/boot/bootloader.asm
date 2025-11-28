@@ -16,11 +16,6 @@ set_stack:
   mov bp, 0x7c00
   mov sp, bp
 
-set_video_mode:
-  mov ah, 0x00
-  mov al, 0x03
-  int 0x10
-
 read_kernel:
   mov ah, 0x42
   mov si, DAP
