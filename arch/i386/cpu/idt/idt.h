@@ -42,4 +42,21 @@ void idt_isr_19(void);
 void idt_isr_20(void);
 void idt_isr_21(int error);
 
+void idt_isr_32(void);
+void idt_isr_33(void);
+void idt_isr_34(void);
+void idt_isr_35(void);
+void idt_isr_36(void);
+void idt_isr_37(void);
+void idt_isr_38(void);
+void idt_isr_39(void);
+void idt_isr_40(void);
+void idt_isr_41(void);
+void idt_isr_42(void);
+void idt_isr_43(void);
+void idt_isr_44(void);
+void idt_isr_45(void);
+void idt_isr_46(void);
+void idt_isr_47(void);
+
 #endif

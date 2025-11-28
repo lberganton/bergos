@@ -1,9 +1,11 @@
 #include "interrupt.h"
 #include "idt.h"
 #include "i386.h"
+#include "pic.h"
 
 void interrupt_initialize(void) {
   idt_initialize();
+  pic_initialize();
   i386_cli();
 }
 
