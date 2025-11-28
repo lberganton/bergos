@@ -21,4 +21,9 @@ SECTIONS {
     *(.bss)
     *(.bss.*)
   }
+
+  .rodata : {
+    *(.rodata)
+    *(.rodata.*)
+  }
 }
