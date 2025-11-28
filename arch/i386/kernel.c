@@ -21,6 +21,5 @@ void kernel_panic(const char *msg) {
 }
 
 void kernel_halt(void) {
-  i386_cli();
   i386_hlt();
 }
