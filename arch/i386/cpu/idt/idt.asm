@@ -1,8 +1,8 @@
 extern idt_handlers
 
 %macro PUSH_NO_ERROR_CODE 1
-  global idt_isr%1
-  idt_isr%1:
+  global idt_isr_%1
+  idt_isr_%1:
     push eax
     push ecx
     push edx
@@ -22,8 +22,8 @@ extern idt_handlers
 %endmacro
 
 %macro PUSH_ERROR_CODE 1
-  global idt_isr%1
-  idt_isr%1:
+  global idt_isr_%1
+  idt_isr_%1:
     push eax
     push ecx
     push edx

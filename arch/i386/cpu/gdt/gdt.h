@@ -13,6 +13,6 @@ typedef enum {
   GDT_SELECTOR_KERNEL_DATA = 0x10,
 } GDTSelector;
 
-int gdt_initialize(void);
+void gdt_initialize(void);
 
 #endif

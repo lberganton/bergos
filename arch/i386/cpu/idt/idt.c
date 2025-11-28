@@ -92,7 +92,7 @@ static void gate_initialize(int vector, void *offset, GDTSelector selector, IDTG
   idt_gates[vector].segment_selector = selector;
 }
 
-int idt_initialize(void) {
+void idt_initialize(void) {
   idt_descriptor.size = sizeof(idt_gates) - 1;
   idt_descriptor.offset = (uint32_t) &idt_gates;
 
@@ -100,42 +100,38 @@ int idt_initialize(void) {
     idt_handlers[i] = handler_generic;
   }
 
-  gate_initialize(0, idt_isr0, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
-  gate_initialize(1, idt_isr1, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_TRAP32, GDT_RING_0);
-  gate_initialize(2, idt_isr2, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
-  gate_initialize(3, idt_isr3, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_TRAP32, GDT_RING_0);
-  gate_initialize(4, idt_isr4, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_TRAP32, GDT_RING_0);
-  gate_initialize(5, idt_isr5, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
-  gate_initialize(6, idt_isr6, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
-  gate_initialize(7, idt_isr7, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
-  gate_initialize(8, idt_isr8, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
-  gate_initialize(9, idt_isr9, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
-  gate_initialize(10, idt_isr10, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
-  gate_initialize(11, idt_isr11, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
-  gate_initialize(12, idt_isr12, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
-  gate_initialize(13, idt_isr13, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
-  gate_initialize(14, idt_isr14, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
-  gate_initialize(16, idt_isr16, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
-  gate_initialize(17, idt_isr17, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
-  gate_initialize(18, idt_isr18, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
-  gate_initialize(19, idt_isr19, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
-  gate_initialize(20, idt_isr20, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
-  gate_initialize(21, idt_isr21, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
+  gate_initialize(0, idt_isr_0, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
+  gate_initialize(1, idt_isr_1, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_TRAP32, GDT_RING_0);
+  gate_initialize(2, idt_isr_2, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
+  gate_initialize(3, idt_isr_3, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_TRAP32, GDT_RING_0);
+  gate_initialize(4, idt_isr_4, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_TRAP32, GDT_RING_0);
+  gate_initialize(5, idt_isr_5, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
+  gate_initialize(6, idt_isr_6, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
+  gate_initialize(7, idt_isr_7, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
+  gate_initialize(8, idt_isr_8, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
+  gate_initialize(9, idt_isr_9, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
+  gate_initialize(10, idt_isr_10, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
+  gate_initialize(11, idt_isr_11, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
+  gate_initialize(12, idt_isr_12, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
+  gate_initialize(13, idt_isr_13, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
+  gate_initialize(14, idt_isr_14, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
+  gate_initialize(16, idt_isr_16, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
+  gate_initialize(17, idt_isr_17, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
+  gate_initialize(18, idt_isr_18, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
+  gate_initialize(19, idt_isr_19, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
+  gate_initialize(20, idt_isr_20, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
+  gate_initialize(21, idt_isr_21, GDT_SELECTOR_KERNEL_CODE, IDT_GATE_TYPE_INT32, GDT_RING_0);
 
   asm volatile ("lidt (%0)" :: "m" (idt_descriptor));
-
-  return 0;
 }
 
-int idt_reload(void) {
+void idt_reload(void) {
   asm volatile ("lidt (%0)" :: "m" (idt_descriptor));
-  return 0;
 }
 
-int idt_gate_set_handler(int vector, IDTHandler handler) {
+void idt_gate_set_handler(int vector, IDTHandler handler) {
   if (vector >= 0 && vector <= 21 && vector != 15) {
-    return 1;
+    kernel_panic("invalid idt gate vector");
   }
   idt_handlers[vector] = handler;
-  return 0;
 }

@@ -15,31 +15,31 @@ typedef enum {
 
 typedef void (*IDTHandler)(int vector, int *error, I386Registers registers);
 
-int idt_initialize(void);
-int idt_reload(void);
+void idt_initialize(void);
+void idt_reload(void);
 
-int idt_gate_set_handler(int vector, IDTHandler handler);
+void idt_gate_set_handler(int vector, IDTHandler handler);
 
-void idt_isr0(void);
-void idt_isr1(void);
-void idt_isr2(void);
-void idt_isr3(void);
-void idt_isr4(void);
-void idt_isr5(void);
-void idt_isr6(void);
-void idt_isr7(void);
-void idt_isr8(int error);
-void idt_isr9(void);
-void idt_isr10(int error);
-void idt_isr11(int error);
-void idt_isr12(int error);
-void idt_isr13(int error);
-void idt_isr14(int error);
-void idt_isr16(void);
-void idt_isr17(int error);
-void idt_isr18(void);
-void idt_isr19(void);
-void idt_isr20(void);
-void idt_isr21(int error);
+void idt_isr_0(void);
+void idt_isr_1(void);
+void idt_isr_2(void);
+void idt_isr_3(void);
+void idt_isr_4(void);
+void idt_isr_5(void);
+void idt_isr_6(void);
+void idt_isr_7(void);
+void idt_isr_8(int error);
+void idt_isr_9(void);
+void idt_isr_10(int error);
+void idt_isr_11(int error);
+void idt_isr_12(int error);
+void idt_isr_13(int error);
+void idt_isr_14(int error);
+void idt_isr_16(void);
+void idt_isr_17(int error);
+void idt_isr_18(void);
+void idt_isr_19(void);
+void idt_isr_20(void);
+void idt_isr_21(int error);
 
 #endif
