@@ -15,24 +15,12 @@ typedef struct {
 } I386Registers;
 
 static inline void i386_outb(uint16_t port, uint8_t value) {
-  asm volatile ("movw %[port],  %%dx  \n"
-                "movb %[value], %%al  \n"
-                "outb %%al,     %%dx  \n"
-                :
-                : [port] "r" (port), [value] "r" (value)
-                : "al", "dx"
-  );
+  asm volatile ("out %%al, %%dx" :: "a" (value), "d" (port));
 }
 
 static inline uint8_t i386_inb(uint16_t port) {
   uint8_t byte;
-  asm volatile ("movw %[port],  %%dx    \n"
-                "inb  %%dx,     %%al    \n"
-                "movb %%al,     %[byte] \n"
-                : [byte] "=r" (byte)
-                : [port] "r" (port)
-                : "al", "dx"
-  );
+  asm volatile ("in %%dx, %%al" : "=a" (byte) : "d" (port));
   return byte;
 }
 
